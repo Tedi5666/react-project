@@ -1,5 +1,6 @@
 .catalog {
     padding: 40px;
+    min-height: calc(100vh - 140px);
   }
   
   .catalog h2 {
@@ -17,8 +18,8 @@
     background: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
   }
+  
   
   .catalog-card img {
     width: 100%;

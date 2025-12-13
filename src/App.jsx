@@ -6,9 +6,13 @@ import AppRouter from './router/AppRouter';
 function App() {
   return (
     <BrowserRouter>
-      <Header />
-      <AppRouter />
-      <Footer />
+      <div className="app-container">
+        <Header />
+        <main className="content">
+          <AppRouter />
+        </main>
+        <Footer />
+      </div>
     </BrowserRouter>
   );
 }
