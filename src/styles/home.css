@@ -1,0 +1,24 @@
+.home {
+    min-height: calc(100vh - 80px);
+    background: linear-gradient(to right, #00bcd4, #2196f3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  
+  .home-content {
+    color: #fff;
+    max-width: 600px;
+  }
+  
+  .home-content h1 {
+    font-size: 42px;
+    margin-bottom: 20px;
+  }
+  
+  .home-content p {
+    font-size: 18px;
+    line-height: 1.6;
+  }
+  
