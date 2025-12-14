@@ -5,6 +5,8 @@ import Catalog from '../pages/Catalog/Catalog';
 import Details from '../pages/Details/Details';
 import Login from '../pages/Login/Login';
 import Register from '../pages/Register/Register';
+import Profile from '../pages/Profile/Profile';
+
 
 export default function AppRouter() {
   return (
@@ -14,6 +16,7 @@ export default function AppRouter() {
       <Route path="/details/:id" element={<Details />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/profile" element={<Profile />} />
     </Routes>
   );
 }
