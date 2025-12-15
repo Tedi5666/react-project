@@ -6,6 +6,8 @@ import Details from '../pages/Details/Details';
 import Login from '../pages/Login/Login';
 import Register from '../pages/Register/Register';
 import Profile from '../pages/Profile/Profile';
+import Create from '../pages/Create/Create';
+
 
 
 export default function AppRouter() {
@@ -17,6 +19,8 @@ export default function AppRouter() {
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/profile" element={<Profile />} />
+      <Route path="/create" element={<Create />} />
+
     </Routes>
   );
 }
