@@ -1,35 +1,26 @@
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { getGiveawayById } from '../../services/giveaway';
 import '../../styles/details.css';
 
 export default function Details() {
+  const { id } = useParams();
+  const [item, setItem] = useState(null);
+
+  useEffect(() => {
+    getGiveawayById(id).then(setItem);
+  }, [id]);
+
+  if (!item) {
+    return <p>Loading...</p>;
+  }
+
   return (
     <section className="details">
-      <div className="details-card">
-        <img
-          src="https://via.placeholder.com/400x250"
-          alt="giveaway"
-        />
-
-        <div className="details-content">
-          <h2>Giveaway Title</h2>
-
-          <p className="price">Price: 120 лв.</p>
-
-          <p className="description">
-            This is a short description of the giveaway. It explains what is
-            being given and under what conditions.
-          </p>
-
-          <p className="author">
-            Author: <span>username</span>
-          </p>
-
-          <div className="actions">
-            {/* <button className="sign">Sign Up</button> */}
-            <button className="edit">Edit</button>
-            <button className="delete">Delete</button>
-          </div>
-        </div>
-      </div>
+      <h2>{item.title}</h2>
+      <img src={item.imageUrl} alt={item.title} />
+      <p>{item.description}</p>
+      <p>Price: ${item.price}</p>
     </section>
   );
 }

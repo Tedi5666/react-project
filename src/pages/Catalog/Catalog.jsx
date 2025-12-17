@@ -1,29 +1,33 @@
-import '../../styles/catalog.css';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { getAllGiveaways } from '../../services/giveaway';
+import '../../styles/catalog.css';
 
 export default function Catalog() {
+  const [items, setItems] = useState([]);
+
+  useEffect(() => {
+    getAllGiveaways().then(setItems);
+  }, []);
+
   return (
     <section className="catalog">
       <h2>All Giveaways</h2>
 
       <div className="catalog-grid">
-        <div className="catalog-card">
-          <img src="https://via.placeholder.com/300" alt="item" />
-          <div className="catalog-card-content">
-            <h3>Gaming Mouse</h3>
-            <p>Price: $50</p>
-            <Link to="/details/1">Details</Link>
-          </div>
-        </div>
-
-        <div className="catalog-card">
-          <img src="https://via.placeholder.com/300" alt="item" />
-          <div className="catalog-card-content">
-            <h3>Keyboard</h3>
-            <p>Price: $70</p>
-            <Link to="/details/2">Details</Link>
-          </div>
-        </div>
+        {items.map(item => (
+          <Link
+            key={item.objectId}
+            to={`/details/${item.objectId}`}
+            className="catalog-card"
+          >
+            <img src={item.imageUrl} alt={item.title} />
+            <div className="catalog-card-content">
+              <h3>{item.title}</h3>
+              <p>Price: ${item.price}</p>
+            </div>
+          </Link>
+        ))}
       </div>
     </section>
   );
