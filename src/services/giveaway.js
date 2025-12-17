@@ -6,6 +6,10 @@ export const getAllGiveaways = async () => {
   return data.results;
 };
 
+export const getUserById = async (id) => {
+  const data = await request('GET', `/users/${id}`);
+  return data;
+};
 
 
 export const getGiveawayById = async (id) => {
