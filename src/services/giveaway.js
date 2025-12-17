@@ -1,18 +1,29 @@
-const BASE_URL = 'https://parseapi.back4app.com/classes/giveAway';
+import { request } from './api';
 
-const headers = {
-  'X-Parse-Application-Id': 'APP_ID',
-  'X-Parse-JavaScript-Key': 'JS_KEY',
-  'Content-Type': 'application/json',
+
+export const getAllGiveaways = async () => {
+  const data = await request('GET', '/classes/giveAway');
+  return data.results;
 };
 
-export async function getAllGiveaways() {
-  const res = await fetch(BASE_URL, { headers });
-  const data = await res.json();
-  return data.results;
-}
 
-export async function getGiveawayById(id) {
-  const res = await fetch(`${BASE_URL}/${id}`, { headers });
-  return res.json();
-}
+
+export const getGiveawayById = async (id) => {
+  const data = await request('GET', `/classes/giveAway/${id}`);
+  return data;
+};
+
+
+export const createGiveaway = (data, sessionToken) => {
+  return request('POST', '/classes/giveAway', data, sessionToken);
+};
+
+
+export const editGiveaway = (id, data, sessionToken) => {
+  return request('PUT', `/classes/giveAway/${id}`, data, sessionToken);
+};
+
+
+export const deleteGiveaway = (id, sessionToken) => {
+  return request('DELETE', `/classes/giveAway/${id}`, null, sessionToken);
+};
