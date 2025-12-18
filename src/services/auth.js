@@ -20,5 +20,6 @@ export const register = (username, email, imageUrl, password) => {
 };
 
 export const logout = (sessionToken) => {
+  if (!sessionToken) return;
   return request('POST', '/logout', null, sessionToken);
 };

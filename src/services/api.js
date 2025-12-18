@@ -19,10 +19,9 @@ export async function request(method, url, data, sessionToken) {
   }
 
   const res = await fetch(`${config.appUrl}${url}`, options);
-
   if (!res.ok) {
     const error = await res.json();
-      console.error('PARSE ERROR:', error);
+    console.error('PARSE ERROR:', error);
     throw error;
   }
 

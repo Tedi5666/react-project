@@ -62,7 +62,7 @@ export default function Edit({ sessionToken }) {
     try {
       await editGiveaway(id, data, sessionToken); 
       setSuccess('Giveaway updated successfully!');
-      navigate('/catalog');
+      navigate('/details/' + id);
     } catch (err) {
       setError(err.message || 'Something went wrong.');
     } finally {
