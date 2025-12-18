@@ -95,6 +95,7 @@ export default function Create({ sessionToken }) {
             onChange={handleChange}
             required
             min="0"
+            max="1000000"
           />
         </label>
 

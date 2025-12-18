@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { useToast } from '../../context/ToastContext';
 import '../../styles/forms.css';
 
 export default function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();
+  const { addToast } = useToast();
 
   const [formData, setFormData] = useState({
     username: '',
@@ -26,7 +28,7 @@ export default function Login() {
       await login(formData.username, formData.password);
       navigate('/catalog');
     } catch (err) {
-      alert('Login failed');
+      addToast(err?.message || 'Login failed');
     }
   };
 
@@ -40,6 +42,7 @@ export default function Login() {
           name="username"
           value={formData.username}
           onChange={onChange}
+          placeholder="Enter username"
         />
 
         <label>Password</label>
@@ -48,6 +51,7 @@ export default function Login() {
           type="password"
           value={formData.password}
           onChange={onChange}
+          placeholder="Password (min 6 chars)"
         />
 
         <button className="btn">Login</button>

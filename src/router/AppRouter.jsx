@@ -9,8 +9,8 @@ import Profile from '../pages/Profile/Profile';
 import Create from '../pages/Create/Create';
 import Logout from '../pages/Logout/LogoutPage';
 import Edit from '../pages/Edit/Edit';
-
-
+import DeletePage from '../pages/DeletePage/Delete.jsx';
+import ProtectedRoute from '../components/ProtectedRoute';
 
 export default function AppRouter() {
   return (
@@ -18,12 +18,69 @@ export default function AppRouter() {
       <Route path="/" element={<Home />} />
       <Route path="/catalog" element={<Catalog />} />
       <Route path="/details/:id" element={<Details />} />
-      <Route path="/edit/:id" element={<Edit />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/profile" element={<Profile />} />
-      <Route path="/create" element={<Create />} />
-      <Route path="/logout" element={<Logout />} />
+
+      <Route
+        path="/login"
+        element={
+          <ProtectedRoute guestOnly>
+            <Login />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/register"
+        element={
+          <ProtectedRoute guestOnly>
+            <Register />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/profile"
+        element={
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/create"
+        element={
+          <ProtectedRoute>
+            <Create />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/edit/:id"
+        element={
+          <ProtectedRoute>
+            <Edit />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/logout"
+        element={
+          <ProtectedRoute>
+            <Logout />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/delete/:id"
+        element={
+          <ProtectedRoute>
+            <DeletePage />
+          </ProtectedRoute>
+        }
+      />
     </Routes>
   );
 }

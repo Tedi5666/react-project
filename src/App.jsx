@@ -3,19 +3,24 @@ import { AuthProvider } from './context/AuthContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import AppRouter from './router/AppRouter';
+import { ToastProvider } from './context/ToastContext';
+import Toasts from './components/Toasts';
 
 function App() {
   return (
     <BrowserRouter>
-      <AuthProvider>
-        <div className="app-container">
-          <Header />
-          <main className="content">
-            <AppRouter />
-          </main>
-          <Footer />
-        </div>
-      </AuthProvider>
+      <ToastProvider>
+        <AuthProvider>
+          <div className="app-container">
+            <Header />
+            <main className="content">
+              <AppRouter />
+            </main>
+            <Footer />
+          </div>
+          <Toasts />
+        </AuthProvider>
+      </ToastProvider>
     </BrowserRouter>
   );
 }

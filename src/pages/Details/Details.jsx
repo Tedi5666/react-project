@@ -1,66 +1,55 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { deleteGiveaway, getGiveawayById } from '../../services/giveaway';
+
+import { getGiveawayById, deleteGiveaway } from '../../services/giveaway';
 import { request } from '../../services/api';
-import { useAuth } from '../../context/AuthContext.jsx';
+import { useAuth } from '../../context/AuthContext';
+
 import '../../styles/details.css';
 
-export default function Details({ sessionToken}) {
-  const { user } = useAuth();
+export default function Details() {
   const { id } = useParams();
   const navigate = useNavigate();
-  
+  const { user } = useAuth();
+
   const [item, setItem] = useState(null);
   const [author, setAuthor] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+
   useEffect(() => {
     getGiveawayById(id)
-    .then(data => {
-      setItem(data);
-      
-      if (data.author && data.author.objectId) {
-        return request('GET', `/users/${data.author.objectId}`);
-      }
-    })
-    .then(user => {
-      if (user) {
-        setAuthor(user.username);
-      }
-    })
-    .catch(err => {
-      console.error(err);
-      setError('Failed to load giveaway.');
-    })
-    .finally(() => {
-      setLoading(false);
-    });
+      .then(data => {
+        setItem(data);
+
+        if (data.author?.objectId) {
+          return request('GET', `/users/${data.author.objectId}`);
+        }
+      })
+      .then(authorData => {
+        if (authorData) {
+          setAuthor(authorData.username);
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        setError('Failed to load giveaway');
+      })
+      .finally(() => setLoading(false));
   }, [id]);
-  
-  const handleDelete = async () => {
-    const confirmDelete = window.confirm('Are you sure you want to delete this giveaway?');
-    if (!confirmDelete) return;
 
-    try {
-      await deleteGiveaway(`${id}`, sessionToken);
-      alert('Giveaway deleted successfully!');
-      navigate('/catalog'); 
-    } catch (err) {
-      console.error(err);
-      alert('Failed to delete giveaway.');
-    }
-  };
-
-  const handleEdit = () => {
-    navigate(`/edit/${id}`);
-  };
+  const isOwner =
+    user &&
+    item &&
+    item.author &&
+    item.author.objectId === user.objectId;
 
   if (loading) {
-    return <p style={{ color: 'white', textAlign: 'center' }}>Loading...</p>;
+    return <p className="loading">Loading...</p>;
   }
 
   if (!item) {
-    return <p style={{ color: 'white', textAlign: 'center' }}>Item not found</p>;
+    return <p className="error">Giveaway not found</p>;
   }
 
   return (
@@ -74,16 +63,27 @@ export default function Details({ sessionToken}) {
           <p>{item.description}</p>
           <p className="details-price">Price: ${item.price}</p>
 
-          {user.objectId === item.author.objectId && (
+          {isOwner && (
             <div className="details-actions">
-              <button onClick={handleEdit} className="edit-btn">Edit</button>
-              <button onClick={handleDelete} className="delete-btn">Delete</button>
+              <button
+                className="edit-btn"
+                onClick={() => navigate(`/edit/${id}`)}
+              >
+                Edit
+              </button>
+
+              <button
+                className="delete-btn"
+                onClick={() => navigate(`/delete/${id}`)}
+              >
+                Delete
+              </button>
             </div>
           )}
         </div>
       </div>
 
-      {error && <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>}
+      {error && <p className="error">{error}</p>}
     </section>
   );
 }

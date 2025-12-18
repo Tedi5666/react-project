@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import '../../styles/create.css';
+
 import { editGiveaway, getGiveawayById } from '../../services/giveaway';
 import { useAuth } from '../../context/AuthContext.jsx';
 
-export default function Edit({ sessionToken }) {
+export default function Edit() {
   const { id } = useParams();
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -15,15 +16,19 @@ export default function Edit({ sessionToken }) {
     price: '',
     imageUrl: '',
   });
-  const [loading, setLoading] = useState(false);
-  const [fetching, setFetching] = useState(true); 
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
 
-  
+  const [loading, setLoading] = useState(false);
+  const [fetching, setFetching] = useState(true);
+  const [error, setError] = useState('');
+
   useEffect(() => {
     getGiveawayById(id)
       .then(data => {
+        if (data.author.objectId !== user.objectId) {
+          navigate('/catalog');
+          return;
+        }
+
         setFormData({
           title: data.title || '',
           description: data.description || '',
@@ -31,40 +36,34 @@ export default function Edit({ sessionToken }) {
           imageUrl: data.imageUrl || '',
         });
       })
-      .catch(err => {
-        console.error(err);
+      .catch(() => {
         setError('Failed to load giveaway data.');
       })
       .finally(() => setFetching(false));
-  }, [id]);
+  }, [id, user, navigate]);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError('');
-    setSuccess('');
 
     const data = {
       ...formData,
       price: Number(formData.price),
-      author: {
-        __type: 'Pointer',
-        className: '_User',
-        objectId: user.objectId
-      },
     };
 
     try {
-      await editGiveaway(id, data, sessionToken); 
-      setSuccess('Giveaway updated successfully!');
+      await editGiveaway(id, data, user.sessionToken);
       navigate('/details/' + id);
-    } catch (err) {
-      setError(err.message || 'Something went wrong.');
+    } catch {
+      setError('Update failed.');
     } finally {
       setLoading(false);
     }
@@ -80,29 +79,19 @@ export default function Edit({ sessionToken }) {
         <h2>Edit Giveaway</h2>
 
         {error && <p className="error">{error}</p>}
-        {success && <p className="success">{success}</p>}
 
         <label>
           Title
-          <input
-            type="text"
-            name="title"
-            placeholder="Giveaway title"
-            value={formData.title}
-            onChange={handleChange}
-            required
-          />
+          <input name="title" value={formData.title} onChange={handleChange} />
         </label>
 
         <label>
           Description
           <textarea
             name="description"
-            placeholder="Giveaway description"
             value={formData.description}
             onChange={handleChange}
-            required
-          ></textarea>
+          />
         </label>
 
         <label>
@@ -110,27 +99,21 @@ export default function Edit({ sessionToken }) {
           <input
             type="number"
             name="price"
-            placeholder="0"
             value={formData.price}
             onChange={handleChange}
-            required
-            min="0"
           />
         </label>
 
         <label>
           Image URL
           <input
-            type="text"
             name="imageUrl"
-            placeholder="https://..."
             value={formData.imageUrl}
             onChange={handleChange}
-            required
           />
         </label>
 
-        <button type="submit" disabled={loading}>
+        <button disabled={loading}>
           {loading ? 'Updating...' : 'Update'}
         </button>
       </form>
