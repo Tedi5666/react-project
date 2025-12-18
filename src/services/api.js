@@ -22,6 +22,7 @@ export async function request(method, url, data, sessionToken) {
 
   if (!res.ok) {
     const error = await res.json();
+      console.error('PARSE ERROR:', error);
     throw error;
   }
 
