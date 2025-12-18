@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import '../../styles/forms.css';
 
@@ -32,25 +32,31 @@ export default function Login() {
 
   return (
     <section className="form-page">
-      <form onSubmit={onSubmit} className="form">
-        <h2>Login</h2>
+      <form onSubmit={onSubmit} className="forms">
+        <h3>Login</h3>
 
+        <label>Username</label>
         <input
           name="username"
-          placeholder="Username"
           value={formData.username}
           onChange={onChange}
         />
 
+        <label>Password</label>
         <input
           name="password"
           type="password"
-          placeholder="Password"
           value={formData.password}
           onChange={onChange}
         />
 
-        <button>Login</button>
+        <button className="btn">Login</button>
+
+        <div className="form-footer">
+          <p>
+            Don’t have an account? <Link to="/register">Register</Link>
+          </p>
+        </div>
       </form>
     </section>
   );

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import '../../styles/forms.css';
 
@@ -12,6 +12,7 @@ export default function Register() {
     email: '',
     imageUrl: '',
     password: '',
+    repeatPassword: '',
   });
 
   const onChange = (e) => {
@@ -23,6 +24,11 @@ export default function Register() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+
+    if (formData.password !== formData.repeatPassword) {
+      alert('Passwords do not match');
+      return;
+    }
 
     try {
       await register(
@@ -39,15 +45,35 @@ export default function Register() {
 
   return (
     <section className="form-page">
-      <form onSubmit={onSubmit} className="form">
-        <h2>Register</h2>
+      <form onSubmit={onSubmit} className="forms">
+        <h3>Register</h3>
 
-        <input name="username" placeholder="Username" onChange={onChange} />
-        <input name="email" placeholder="Email" onChange={onChange} />
-        <input name="imageUrl" placeholder="Image URL" onChange={onChange} />
-        <input name="password" type="password" placeholder="Password" onChange={onChange} />
+        <label>Username</label>
+        <input name="username" onChange={onChange} />
 
-        <button>Register</button>
+        <label>Email</label>
+        <input name="email" onChange={onChange} />
+
+        <label>Image URL</label>
+        <input name="imageUrl" onChange={onChange} />
+
+        <label>Password</label>
+        <input name="password" type="password" onChange={onChange} />
+
+        <label>Repeat Password</label>
+        <input
+          name="repeatPassword"
+          type="password"
+          onChange={onChange}
+        />
+
+        <button className="btn">Register</button>
+
+        <div className="form-footer">
+          <p>
+            Already have an account? <Link to="/login">Login</Link>
+          </p>
+        </div>
       </form>
     </section>
   );
