@@ -37,3 +37,33 @@
   font-weight: bold;
   margin-top: 20px;
 }
+
+.details-actions {
+  margin-top: 20px;
+  display: flex;
+  gap: 15px;
+}
+
+.details-actions button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s, opacity 0.2s;
+}
+
+.details-actions button:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
+}
+
+.edit-btn {
+  background-color: #23afbe; 
+  color: #fff;
+}
+
+.delete-btn {
+  background-color: #c91d1b; 
+  color: #fff;
+}

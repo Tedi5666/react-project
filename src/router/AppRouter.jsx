@@ -8,6 +8,7 @@ import Register from '../pages/Register/Register';
 import Profile from '../pages/Profile/Profile';
 import Create from '../pages/Create/Create';
 import Logout from '../pages/Logout/LogoutPage';
+import Edit from '../pages/Edit/Edit';
 
 
 
@@ -17,6 +18,7 @@ export default function AppRouter() {
       <Route path="/" element={<Home />} />
       <Route path="/catalog" element={<Catalog />} />
       <Route path="/details/:id" element={<Details />} />
+      <Route path="/edit/:id" element={<Edit />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/profile" element={<Profile />} />
