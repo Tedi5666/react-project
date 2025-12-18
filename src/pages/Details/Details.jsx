@@ -13,23 +13,23 @@ export default function Details() {
 
   useEffect(() => {
     getGiveawayById(id)
-      .then(data => {
-        setItem(data);
-
-        if (data.author && data.author.objectId) {
-          return request('GET', `/users/${data.author.objectId}`);
-        }
-      })
-      .then(user => {
-        if (user) {
-          setAuthor(user.username);
-        }
-      })
-      .catch(err => {
-        console.error(err);
-      })
-      .finally(() => {
-        setLoading(false);
+    .then(data => {
+      setItem(data);
+      
+      if (data.author && data.author.objectId) {
+        return request('GET', `/users/${data.author.objectId}`);
+      }
+    })
+    .then(user => {
+      if (user) {
+        setAuthor(user.username);
+      }
+    })
+    .catch(err => {
+      console.error(err);
+    })
+    .finally(() => {
+      setLoading(false);
       });
   }, [id]);
 

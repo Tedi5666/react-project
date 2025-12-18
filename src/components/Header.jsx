@@ -15,8 +15,9 @@ export default function Header() {
           <li><Link to="/catalog">Catalog</Link></li>
           {values.user ? (
             <>
-              <li><Link to="/logout">Logout</Link></li>
+              <li><Link to="/create">Create</Link></li>
               <li><Link to="/profile">Profile</Link></li>
+              <li><Link to="/logout">Logout</Link></li>
             </>
           ) : (
             <>

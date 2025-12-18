@@ -1,6 +1,5 @@
 import { request } from './api';
 
-
 export const getAllGiveaways = async () => {
   const data = await request('GET', '/classes/giveAway');
   return data.results;
